@@ -1,6 +1,18 @@
 {
-  "description": "Пассивный Execution Ledger для работы с репозиторием",
+  "description": "Узкая защита данных и пассивный Execution Ledger",
   "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "^(Bash|apply_patch)$",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "guard_root=\"$(git rev-parse --show-toplevel)\" || exit 2; python3 -B \"$guard_root/workflow/safety_hook.py\" --host codex",
+            "timeout": 2
+          }
+        ]
+      }
+    ],
     "SessionStart": [
       {
         "matcher": "startup|resume|clear|compact",

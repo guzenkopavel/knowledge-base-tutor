@@ -1,5 +1,17 @@
 {
   "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "^(Bash|Edit|Write|MultiEdit|NotebookEdit|apply_patch)$",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "guard_root=\"$(git rev-parse --show-toplevel)\" || exit 2; python3 -B \"$guard_root/workflow/safety_hook.py\" --host claude",
+            "timeout": 2
+          }
+        ]
+      }
+    ],
     "SessionStart": [
       {
         "matcher": "startup|resume|clear|compact|fork",
