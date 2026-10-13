@@ -1,0 +1,31 @@
+{
+  "description": "Пассивный Execution Ledger для работы с репозиторием",
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "startup|resume|clear|compact",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 -B \"$(git rev-parse --show-toplevel)/workflow/ledger/ledger_hook.py\" hook",
+            "timeout": 2,
+            "additionalContextLimit": 1200
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "^(Bash|apply_patch)$",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 -B \"$(git rev-parse --show-toplevel)/workflow/ledger/ledger_hook.py\" hook",
+            "timeout": 2,
+            "additionalContextLimit": 1200
+          }
+        ]
+      }
+    ]
+  }
+}

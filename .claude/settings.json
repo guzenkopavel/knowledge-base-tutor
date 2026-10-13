@@ -1,0 +1,27 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "startup|resume|clear|compact|fork",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "root=\"$(git rev-parse --show-toplevel 2>/dev/null)\" || exit 0; [ -f \"$root/workflow/ledger/ledger_claude_hook.py\" ] || exit 0; exec python3 -B \"$root/workflow/ledger/ledger_claude_hook.py\"",
+            "timeout": 2
+          }
+        ]
+      }
+    ],
+    "PostToolBatch": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "root=\"$(git rev-parse --show-toplevel 2>/dev/null)\" || exit 0; [ -f \"$root/workflow/ledger/ledger_claude_hook.py\" ] || exit 0; exec python3 -B \"$root/workflow/ledger/ledger_claude_hook.py\"",
+            "timeout": 2
+          }
+        ]
+      }
+    ]
+  }
+}
